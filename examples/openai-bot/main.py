@@ -3,21 +3,22 @@ from textbase.models import OpenAI
 from typing import List
 
 # Load your OpenAI API key
-OpenAI.api_key = ""
+OpenAI.api_key = "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"  # Replace with your API key
 
 # Prompt for GPT-3.5 Turbo
-SYSTEM_PROMPT = """You are chatting with an AI. There are no specific prefixes for responses, so you can ask or talk about anything you like.
-The AI will respond in a natural, conversational manner. Feel free to start the conversation with any question or topic, and let's have a
-pleasant chat!
+SYSTEM_PROMPT = """You are chatting with a recipe instruction chatbot. You can ask for recipe instructions by providing the name of a dish, such as "How do I make spaghetti bolognese?"
 """
 
 @bot()
 def on_message(message_history: List[Message], state: dict = None):
 
+    # Extract user input from the last message
+    user_input = message_history[-1].content if message_history else ""
+
     # Generate GPT-3.5 Turbo response
     bot_response = OpenAI.generate(
         system_prompt=SYSTEM_PROMPT,
-        message_history=message_history, # Assuming history is the list of user messages
+        message_history=message_history, 
         model="gpt-3.5-turbo",
     )
 
